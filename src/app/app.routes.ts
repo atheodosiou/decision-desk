@@ -26,7 +26,7 @@ export const routes: Routes = [
       },
       {
         path: 'portfolio',
-        loadComponent: () => import('./features/dashboard/dashboard-page').then((m) => m.DashboardPageComponent)
+        loadComponent: () => import('./features/portfolio/portfolio.page').then((m) => m.PortfolioPageComponent)
       },
       {
         path: 'journal',

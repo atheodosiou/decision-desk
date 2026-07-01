@@ -1,0 +1,61 @@
+<div class="space-y-6">
+  <app-page-header eyebrow="Manual Portfolio" title="Portfolio context for better decisions." description="Maintain your portfolio manually so every decision, sandbox scenario and review has accurate context without broker sync.">
+    <app-button variant="secondary" size="sm" (click)="toggleForm()">Add Transaction</app-button>
+    <app-button size="sm">Import CSV</app-button>
+  </app-page-header>
+
+  <section class="grid gap-3 xl:grid-cols-4">
+    @for (metric of metrics(); track metric.label) {
+      <app-metric-card [label]="metric.label" [value]="metric.value" [helper]="metric.helper" [badge]="metric.badge" [badgeTone]="metric.badgeTone" />
+    }
+  </section>
+
+  <div class="grid gap-6 xl:grid-cols-[1.4fr_0.7fr]">
+    <div class="space-y-6">
+      <app-portfolio-summary [snapshot]="portfolioStore.snapshot()"></app-portfolio-summary>
+      @if (showForm()) {
+        <app-add-transaction-form [assets]="portfolioStore.assets()" (onSubmit)="addTransaction($event)" (onCancel)="showForm.set(false)"></app-add-transaction-form>
+      }
+      <app-holdings-table [holdings]="portfolioStore.holdings()"></app-holdings-table>
+      <app-transaction-list [transactions]="portfolioStore.transactions()"></app-transaction-list>
+    </div>
+
+    <div class="space-y-4">
+      <section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Portfolio risk</p>
+            <h3 class="mt-2 text-lg font-semibold text-app-text">Risk context</h3>
+          </div>
+        </div>
+        <div class="mt-5 space-y-3">
+          @for (flag of riskFlags(); track flag.code) {
+            <div class="rounded-[18px] border border-app-border-soft bg-app-surface-2 p-3 text-sm text-app-muted">
+              <p class="font-semibold text-app-text">{{ flag.message }}</p>
+            </div>
+          }
+          @if (!riskFlags().length) {
+            <p class="text-sm text-app-muted">No additional flags at this time.</p>
+          }
+        </div>
+      </section>
+
+      <section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Data quality</p>
+            <h3 class="mt-2 text-lg font-semibold text-app-text">Manual data layer</h3>
+          </div>
+        </div>
+        <div class="mt-5 space-y-3">
+          @for (item of dataQuality; track item.label) {
+            <div class="flex items-center justify-between rounded-[18px] border border-app-border-soft bg-app-surface-2 px-3 py-3 text-sm text-app-muted">
+              <span>{{ item.label }}</span>
+              <span class="font-semibold text-app-text">{{ item.value }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

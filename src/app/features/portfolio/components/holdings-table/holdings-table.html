@@ -1,0 +1,36 @@
+<section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+  <div class="flex items-center justify-between gap-3">
+    <div>
+      <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Holdings</p>
+      <h3 class="mt-2 text-lg font-semibold text-app-text">Current positions</h3>
+    </div>
+  </div>
+
+  <div class="mt-5 overflow-hidden rounded-[18px] border border-app-border-soft">
+    <div class="grid grid-cols-[1.4fr_0.7fr_0.8fr_0.8fr_0.9fr_0.7fr_0.8fr_0.7fr] gap-3 bg-app-surface-2 px-3 py-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-app-muted-2">
+      <span>Asset</span>
+      <span>Qty</span>
+      <span>Avg cost</span>
+      <span>Price</span>
+      <span>Market</span>
+      <span>Alloc</span>
+      <span>P/L</span>
+      <span>Status</span>
+    </div>
+    @for (holding of holdings(); track holding.assetId) {
+      <div class="grid grid-cols-[1.4fr_0.7fr_0.8fr_0.8fr_0.9fr_0.7fr_0.8fr_0.7fr] gap-3 border-t border-app-border-soft bg-app-surface px-3 py-3 text-sm text-app-muted">
+        <div>
+          <p class="font-medium text-app-text">{{ holding.ticker }}</p>
+          <p class="mt-1 text-xs text-app-muted">{{ holding.name }}</p>
+        </div>
+        <span>{{ holding.quantity.toFixed(2) }}</span>
+        <span>{{ formatCurrency(holding.averageCost) }}</span>
+        <span>{{ formatCurrency(holding.currentPrice) }}</span>
+        <span>{{ formatCurrency(holding.marketValue) }}</span>
+        <span>{{ holding.allocationPercent.toFixed(1) }}%</span>
+        <span>{{ holding.unrealizedPnlPercent.toFixed(1) }}%</span>
+        <app-badge [tone]="status(holding) === 'Above limit' ? 'danger' : status(holding) === 'Needs review' ? 'warning' : 'success'">{{ status(holding) }}</app-badge>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,27 @@
+<section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+  <div class="flex items-center justify-between gap-3">
+    <div>
+      <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Portfolio summary</p>
+      <h3 class="mt-2 text-lg font-semibold text-app-text">Manual context</h3>
+    </div>
+    <app-badge tone="accent">Manual</app-badge>
+  </div>
+  <div class="mt-5 grid gap-3 sm:grid-cols-2">
+    <div class="rounded-[18px] border border-app-border-soft bg-app-surface-2 p-3">
+      <p class="text-sm text-app-muted">Portfolio value</p>
+      <p class="mt-2 text-lg font-semibold text-app-text">{{ formatCurrency(snapshot().totalValue) }}</p>
+    </div>
+    <div class="rounded-[18px] border border-app-border-soft bg-app-surface-2 p-3">
+      <p class="text-sm text-app-muted">Available cash</p>
+      <p class="mt-2 text-lg font-semibold text-app-text">{{ formatCurrency(snapshot().cash) }}</p>
+    </div>
+    <div class="rounded-[18px] border border-app-border-soft bg-app-surface-2 p-3">
+      <p class="text-sm text-app-muted">Invested amount</p>
+      <p class="mt-2 text-lg font-semibold text-app-text">{{ formatCurrency(snapshot().investedAmount) }}</p>
+    </div>
+    <div class="rounded-[18px] border border-app-border-soft bg-app-surface-2 p-3">
+      <p class="text-sm text-app-muted">Largest position</p>
+      <p class="mt-2 text-lg font-semibold text-app-text">{{ snapshot().largestPositionTicker }} · {{ snapshot().largestPositionPercent.toFixed(1) }}%</p>
+    </div>
+  </div>
+</section>
