@@ -1,0 +1,45 @@
+<section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Scenario actions</p>
+      <h3 class="mt-2 text-lg font-semibold text-app-text">Hypothetical moves</h3>
+    </div>
+    <app-button variant="secondary" size="sm">Add Action</app-button>
+  </div>
+
+  @if (actions().length) {
+    <div class="mt-5 space-y-3">
+      @for (action of actions(); track action.id) {
+        <div class="rounded-[20px] border border-app-border-soft bg-app-surface-2 p-4">
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <app-badge [tone]="action.type === 'buy' ? 'accent' : 'warning'">{{ action.type === 'buy' ? 'Buy' : 'Sell' }}</app-badge>
+                <p class="text-sm font-semibold text-app-text">{{ action.ticker }} · {{ action.assetName }}</p>
+              </div>
+              <p class="mt-3 text-sm leading-6 text-app-muted">{{ summary(action) }}</p>
+            </div>
+            <div class="rounded-2xl border border-app-border-soft bg-app-surface p-3 text-sm text-app-muted">
+              <div class="flex items-center justify-between gap-6">
+                <span>Order value</span>
+                <span class="font-semibold text-app-text">{{ formatAmount(action) }}</span>
+              </div>
+              <div class="mt-2 flex items-center justify-between gap-6">
+                <span>Estimated shares</span>
+                <span class="font-semibold text-app-text">{{ orderQuantity(action).toFixed(2) }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <app-button variant="ghost" size="sm" (click)="onDuplicate.emit(action.id)">Duplicate</app-button>
+            <app-button variant="ghost" size="sm" (click)="onRemove.emit(action.id)">Remove</app-button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="mt-5 rounded-[20px] border border-dashed border-app-border-soft bg-app-surface-2 p-6 text-sm text-app-muted">
+      No simulated moves yet. Add one to see the impact.
+    </div>
+  }
+</section>

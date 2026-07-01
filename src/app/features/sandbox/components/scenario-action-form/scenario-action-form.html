@@ -1,0 +1,49 @@
+<section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <div>
+      <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Scenario action form</p>
+      <h3 class="mt-2 text-lg font-semibold text-app-text">Add a simulated move</h3>
+    </div>
+    <app-button variant="ghost" size="sm" (click)="onCancel.emit()">Cancel</app-button>
+  </div>
+
+  <form class="mt-5 grid gap-4 md:grid-cols-2" [formGroup]="form" (ngSubmit)="submit()">
+    <label class="flex flex-col gap-2 text-sm text-app-muted">
+      <span class="font-medium text-app-text">Action type</span>
+      <select class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" formControlName="type">
+        @for (option of actionTypes; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="flex flex-col gap-2 text-sm text-app-muted">
+      <span class="font-medium text-app-text">Ticker</span>
+      <select class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" formControlName="assetId">
+        @for (asset of assets(); track asset.id) {
+          <option [value]="asset.id">{{ asset.ticker }} · {{ asset.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="flex flex-col gap-2 text-sm text-app-muted">
+      <span class="font-medium text-app-text">Amount</span>
+      <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" formControlName="amount" />
+    </label>
+
+    <label class="flex flex-col gap-2 text-sm text-app-muted">
+      <span class="font-medium text-app-text">Quantity</span>
+      <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" formControlName="quantity" />
+    </label>
+
+    <label class="flex flex-col gap-2 text-sm text-app-muted md:col-span-2">
+      <span class="font-medium text-app-text">Price</span>
+      <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" formControlName="price" />
+    </label>
+
+    <div class="flex flex-wrap items-center gap-2 md:col-span-2">
+      <app-button type="submit" variant="primary">Add to scenario</app-button>
+      <app-button variant="secondary" (click)="onCancel.emit()">Discard</app-button>
+    </div>
+  </form>
+</section>

@@ -13,7 +13,7 @@ export class AppShellComponent {
 
   protected readonly navigationItems: SidebarItem[] = [
     { label: 'Dashboard', route: '/dashboard', icon: '◈', group: 'workspace' },
-    { label: 'New Decision', route: '/new-decision', icon: '✦', group: 'workspace' },
+    { label: 'New Decision', route: '/decisions/new', icon: '✦', group: 'workspace' },
     { label: 'Sandbox', route: '/sandbox', icon: '▣', group: 'workspace' },
     { label: 'Portfolio', route: '/portfolio', icon: '◌', group: 'workspace' },
     { label: 'Journal', route: '/journal', icon: '✎', group: 'process' },

@@ -12,12 +12,17 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard/dashboard-page').then((m) => m.DashboardPageComponent)
       },
       {
+        path: 'decisions/new',
+        loadComponent: () => import('./features/decisions/new-decision-page').then((m) => m.NewDecisionPageComponent)
+      },
+      {
         path: 'new-decision',
-        loadComponent: () => import('./features/dashboard/dashboard-page').then((m) => m.DashboardPageComponent)
+        redirectTo: 'decisions/new',
+        pathMatch: 'full'
       },
       {
         path: 'sandbox',
-        loadComponent: () => import('./features/dashboard/dashboard-page').then((m) => m.DashboardPageComponent)
+        loadComponent: () => import('./features/sandbox/sandbox.page').then((m) => m.SandboxPageComponent)
       },
       {
         path: 'portfolio',

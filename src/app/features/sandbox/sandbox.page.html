@@ -1,0 +1,43 @@
+<div class="space-y-6">
+  <app-page-header eyebrow="Portfolio Sandbox" title="Test portfolio actions before you execute them." description="Simulate buys, sells and rebalancing moves to understand cash impact, average cost, allocation and concentration risk before acting.">
+    <app-button variant="secondary" size="sm" (click)="resetScenario()">Reset Scenario</app-button>
+    <app-button size="sm" (click)="saveScenario()">Save Scenario</app-button>
+  </app-page-header>
+
+  <section class="grid gap-3 xl:grid-cols-4">
+    @for (metric of metrics(); track metric.label) {
+      <app-metric-card [label]="metric.label" [value]="metric.value" [helper]="metric.helper" [badge]="metric.badge" [badgeTone]="metric.badgeTone" />
+    }
+  </section>
+
+  <div class="grid gap-6 xl:grid-cols-[1.4fr_0.7fr]">
+    <div class="space-y-6">
+      <app-scenario-actions-list [actions]="scenarioActions()" (onRemove)="removeAction($event)" (onDuplicate)="duplicateAction($event)"></app-scenario-actions-list>
+
+      @if (showForm()) {
+        <app-scenario-action-form [assets]="availableAssets()" (onSubmit)="addAction($event)" (onCancel)="showForm.set(false)"></app-scenario-action-form>
+      } @else {
+        <div class="flex flex-wrap items-center justify-between rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Scenario notes</p>
+            <h3 class="mt-2 text-lg font-semibold text-app-text">Why are you testing this scenario?</h3>
+          </div>
+          <app-button variant="secondary" size="sm" (click)="showForm.set(true)">Add Action</app-button>
+        </div>
+      }
+
+      <section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm" [formGroup]="notesForm">
+        <app-section-header title="Scenario notes" description="Capture the rationale behind the hypothesis without turning it into advice." />
+        <label class="mt-4 flex flex-col gap-2 text-sm text-app-muted">
+          <span class="font-medium text-app-text">Why are you testing this scenario?</span>
+          <textarea class="min-h-24 rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" formControlName="notes"></textarea>
+        </label>
+      </section>
+    </div>
+
+    <div class="space-y-4">
+      <app-scenario-impact-panel [impact]="impact()"></app-scenario-impact-panel>
+      <app-scenario-verdict-card [impact]="impact()"></app-scenario-verdict-card>
+    </div>
+  </div>
+</div>

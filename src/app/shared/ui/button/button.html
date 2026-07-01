@@ -1,5 +1,5 @@
 <button
-  type="button"
+  [attr.type]="type()"
   class="inline-flex items-center justify-center rounded-full border font-medium transition {{ size() === 'sm' ? 'h-9 px-3 text-sm' : 'h-10 px-4 text-sm' }} {{ variant() === 'primary' ? 'border-accent/70 bg-accent-soft text-accent' : variant() === 'danger' ? 'border-danger/70 bg-danger-soft text-danger' : variant() === 'ghost' ? 'border-transparent bg-transparent text-app-text hover:bg-app-surface-2' : 'border-app-border bg-app-surface-2 text-app-text' }}"
 >
   <ng-content />

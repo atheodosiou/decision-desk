@@ -1,0 +1,18 @@
+<section class="rounded-[24px] border border-app-border-soft bg-app-surface p-5 shadow-sm">
+  <div class="flex items-center justify-between gap-3">
+    <div>
+      <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted-2">Scenario verdict</p>
+      <h3 class="mt-2 text-lg font-semibold text-app-text">Process-based readout</h3>
+    </div>
+    <app-badge tone="warning">Needs review</app-badge>
+  </div>
+  <p class="mt-4 text-sm leading-7 text-app-muted">{{ verdict() }}</p>
+  <div class="mt-5 space-y-2">
+    @for (flag of impact().flags; track flag.code) {
+      <div class="rounded-[16px] border border-app-border-soft bg-app-surface-2 p-3 text-sm text-app-muted">
+        <span class="font-semibold text-app-text">{{ flag.code }}</span>
+        <span class="ml-2">{{ flag.message }}</span>
+      </div>
+    }
+  </div>
+</section>

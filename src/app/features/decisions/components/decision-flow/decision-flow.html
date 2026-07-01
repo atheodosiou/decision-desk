@@ -1,0 +1,124 @@
+<div class="space-y-8">
+  <app-page-header title="New decision" description="Capture the process, evidence, and review rules before making a move."></app-page-header>
+  <app-section-header title="Structured review" description="Work through the evidence in order so the decision stays disciplined and neutral."></app-section-header>
+
+  <div class="grid gap-8 xl:grid-cols-[1.4fr_0.65fr]">
+    <div class="space-y-6">
+      <app-decision-step-card stepLabel="Step 01" title="Asset and intent" description="Name the position and define the action you are considering." badge="Core">
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Ticker</span>
+            <input class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().assetTicker" (ngModelChange)="updateDecision({ assetTicker: $event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Name</span>
+            <input class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().assetName" (ngModelChange)="updateDecision({ assetName: $event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Decision type</span>
+            <select class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().type" (ngModelChange)="updateDecision({ type: $event })">
+              @for (option of decisionTypeOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Time horizon</span>
+            <input class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().timeHorizon" (ngModelChange)="updateDecision({ timeHorizon: $event })" />
+          </label>
+        </div>
+        <label class="mt-4 flex flex-col gap-2 text-sm text-app-muted">
+          <span class="font-medium text-app-text">Primary reason</span>
+          <textarea class="min-h-24 rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().primaryReason" (ngModelChange)="updateDecision({ primaryReason: $event })"></textarea>
+        </label>
+      </app-decision-step-card>
+
+      <app-decision-step-card stepLabel="Step 02" title="What changed" description="Capture the specific event or catalyst that changed your view." badge="Context">
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Change driver</span>
+            <select class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().whatChanged" (ngModelChange)="updateDecision({ whatChanged: $event })">
+              @for (option of changeOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Evidence</span>
+            <textarea class="min-h-24 rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().evidence" (ngModelChange)="updateDecision({ evidence: $event })"></textarea>
+          </label>
+        </div>
+      </app-decision-step-card>
+
+      <app-decision-step-card stepLabel="Step 03" title="Valuation and sizing" description="Record your valuation range and the planned position size." badge="Discipline">
+        <div class="grid gap-4 md:grid-cols-2">
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Current price</span>
+            <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().currentPrice" (ngModelChange)="updateDecision({ currentPrice: +$event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Fair value low</span>
+            <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().fairValueLow" (ngModelChange)="updateDecision({ fairValueLow: +$event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Fair value high</span>
+            <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().fairValueHigh" (ngModelChange)="updateDecision({ fairValueHigh: +$event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Confidence</span>
+            <select class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().valuationConfidence" (ngModelChange)="updateDecision({ valuationConfidence: $event })">
+              @for (option of confidenceOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Planned risk amount</span>
+            <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().plannedAmount" (ngModelChange)="updateDecision({ plannedAmount: +$event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Planned quantity</span>
+            <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().plannedQuantity" (ngModelChange)="updateDecision({ plannedQuantity: +$event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Current allocation</span>
+            <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().currentAllocationPercent" (ngModelChange)="updateDecision({ currentAllocationPercent: +$event })" />
+          </label>
+          <label class="flex flex-col gap-2 text-sm text-app-muted">
+            <span class="font-medium text-app-text">Max position</span>
+            <input type="number" class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().maxPositionPercent" (ngModelChange)="updateDecision({ maxPositionPercent: +$event })" />
+          </label>
+        </div>
+      </app-decision-step-card>
+
+      <app-decision-step-card stepLabel="Step 04" title="Thesis and review" description="Define the reasoning and the trigger that would invalidate it." badge="Guardrails">
+        <label class="flex flex-col gap-2 text-sm text-app-muted">
+          <span class="font-medium text-app-text">Thesis</span>
+          <textarea class="min-h-24 rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().thesis" (ngModelChange)="updateDecision({ thesis: $event })"></textarea>
+        </label>
+        <label class="flex flex-col gap-2 text-sm text-app-muted">
+          <span class="font-medium text-app-text">Bear case</span>
+          <textarea class="min-h-24 rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().bearCase" (ngModelChange)="updateDecision({ bearCase: $event })"></textarea>
+        </label>
+        <label class="flex flex-col gap-2 text-sm text-app-muted">
+          <span class="font-medium text-app-text">Invalidation trigger</span>
+          <textarea class="min-h-24 rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().invalidationTrigger" (ngModelChange)="updateDecision({ invalidationTrigger: $event })"></textarea>
+        </label>
+        <label class="flex flex-col gap-2 text-sm text-app-muted">
+          <span class="font-medium text-app-text">Review date</span>
+          <input class="rounded-2xl border border-app-border-soft bg-app-surface-2 px-3 py-2.5 text-sm text-app-text outline-none ring-0" [ngModel]="decision().reviewDate" (ngModelChange)="updateDecision({ reviewDate: $event })" />
+        </label>
+      </app-decision-step-card>
+
+      <div class="flex items-center justify-between rounded-3xl border border-app-border-soft bg-app-surface p-5">
+        <div>
+          <p class="text-sm font-semibold text-app-text">Save this decision as a draft</p>
+          <p class="mt-1 text-sm text-app-muted">The process stays neutral and usable for later review.</p>
+        </div>
+        <app-button variant="primary">Save draft</app-button>
+      </div>
+    </div>
+
+    <app-decision-score-panel [score]="decision().score"></app-decision-score-panel>
+  </div>
+</div>
