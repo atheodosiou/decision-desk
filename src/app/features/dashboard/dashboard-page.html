@@ -1,0 +1,88 @@
+<div class="space-y-5">
+  <app-page-header eyebrow="Weekly pulse" title="What needs thinking before the next trade?" description="The home screen shows open decisions, missing evidence, risk flags and reviews due. It does not try to predict the market.">
+    <app-button variant="secondary" size="sm">Weekly Review</app-button>
+    <app-button size="sm">New Decision</app-button>
+  </app-page-header>
+
+  <section class="grid gap-3 xl:grid-cols-4">
+    @for (metric of metrics(); track metric.label) {
+      <app-metric-card [label]="metric.label" [value]="metric.value" [helper]="metric.helper" [badge]="metric.badge" [badgeTone]="metric.badgeTone" />
+    }
+  </section>
+
+  <section class="grid gap-5 xl:grid-cols-[1.5fr_0.8fr]">
+    <div class="space-y-4">
+      <app-card variant="default" padding="md">
+        <app-section-header title="Open decisions" description="Items that need a written thesis, an evidence check, or a sizing decision." />
+        <div class="mt-4 space-y-2.5">
+          @for (decision of openDecisions(); track decision.id) {
+            <div class="rounded-[18px] border border-app-border-soft bg-app-surface-2 p-3.5">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <p class="text-[15px] font-semibold tracking-[-0.02em] text-app-text">{{ decision.title }}</p>
+                    <app-badge [tone]="scoreTone(decision.score)">{{ decision.status }}</app-badge>
+                  </div>
+                  <p class="mt-2 text-sm leading-6 text-app-muted">{{ decision.description }}</p>
+                </div>
+                <div class="rounded-2xl border border-app-border bg-app-surface px-3 py-2 text-right">
+                  <p class="text-[10px] font-semibold uppercase tracking-[0.24em] text-app-muted">Score</p>
+                  <p class="mt-1 text-lg font-semibold tracking-[0.02em] text-app-text font-mono">{{ decision.score }}</p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </app-card>
+
+      <app-card variant="default" padding="md">
+        <app-section-header title="Risk queue" description="Where the next pause point might be." />
+        <div class="mt-4 overflow-hidden rounded-[18px] border border-app-border-soft bg-app-surface-2">
+          @for (item of riskQueue(); track item.label) {
+            <div class="flex flex-col gap-2 border-b border-app-border-soft px-3 py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-app-text">{{ item.label }}</p>
+                <p class="mt-1 text-sm text-app-muted">Current {{ item.current }} · Limit {{ item.limit }}</p>
+              </div>
+              <app-badge [tone]="item.tone">{{ item.status }}</app-badge>
+            </div>
+          }
+        </div>
+      </app-card>
+    </div>
+
+    <div class="space-y-4 xl:sticky xl:top-6 xl:self-start">
+      <app-card variant="soft" padding="md">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted">Today’s best use</p>
+        <p class="mt-2 text-sm leading-7 text-app-text">Do not decide on ASTS until you define fair value range and maximum position size. The current trigger is mostly price movement, not new evidence.</p>
+        <div class="mt-4 rounded-[18px] border border-app-border-soft bg-app-surface p-3">
+          <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted">Primary focus</p>
+          <p class="mt-1.5 text-sm font-medium text-app-text">{{ primaryFocus() }}</p>
+        </div>
+      </app-card>
+
+      <app-card variant="soft" padding="md">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.26em] text-app-muted">Decision health</p>
+            <p class="mt-1.5 text-[1.75rem] font-semibold tracking-[0.02em] text-app-text font-mono">{{ healthScore() }}</p>
+          </div>
+          <app-badge tone="accent">Live</app-badge>
+        </div>
+        <div class="mt-4 space-y-3">
+          @for (metric of decisionHealth(); track metric.label) {
+            <div class="rounded-[18px] border border-app-border-soft bg-app-surface p-3">
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-app-muted">{{ metric.label }}</span>
+                <span class="font-semibold text-app-text font-mono">{{ metric.value }}%</span>
+              </div>
+              <div class="mt-2">
+                <app-progress-bar [value]="metric.value" [tone]="metric.tone" />
+              </div>
+            </div>
+          }
+        </div>
+      </app-card>
+    </div>
+  </section>
+</div>

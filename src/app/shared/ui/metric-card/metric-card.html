@@ -1,0 +1,14 @@
+<div class="rounded-[var(--radius-panel)] border border-app-border bg-app-surface p-4 sm:p-4">
+  <div class="flex items-start justify-between gap-3">
+    <div>
+      <p class="text-sm text-app-muted">{{ label() }}</p>
+      <p class="mt-2 text-[1.7rem] font-semibold tracking-[0.02em] text-app-text font-mono">{{ value() }}</p>
+    </div>
+    @if (badge()) {
+      <app-badge [tone]="badgeTone()">{{ badge() }}</app-badge>
+    }
+  </div>
+  @if (helper()) {
+    <p class="mt-3 text-sm leading-6 text-app-muted">{{ helper() }}</p>
+  }
+</div>
